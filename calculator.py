@@ -7,29 +7,87 @@ HEIGHT = 2
 root = Tk()
 root.title("Calculator")
 
+
+def num_click(number):
+    current = entry.get()
+    if current == "0":
+        current = ""
+    entry.delete(0, END)
+    entry.insert(0, str(current) + str(number))
+
+
+def clear_click():
+    entry.delete(0, END)
+    entry.insert(0, "0")
+
+
+def float_click():
+    current = entry.get()
+    if "." in current:
+        pass
+    else:
+        entry.delete(0, END)
+        entry.insert(0, str(current) + ".")
+
+
+def add_click():
+    global first_num
+    global operator
+    first_num = entry.get()
+    operator = "add"
+    entry.delete(0, END)
+
+
+def sub_click():
+    global first_num
+    global operator
+    first_num = entry.get()
+    operator = "sub"
+    entry.delete(0, END)
+
+
+def equal_click():
+    global first_num
+    second_num = entry.get()
+    second_num = float(second_num)
+    first_num = float(first_num)
+    entry.delete(0, END)
+    if operator == "add":
+        result = first_num + second_num
+        if result.is_integer():
+            result = int(result)
+        entry.insert(0, result)
+
+    if operator == "sub":
+        result = first_num - second_num
+        if result.is_integer():
+            result = int(result)
+        entry.insert(0, result)
+    
+
 entry = Entry(root, width=10, borderwidth=5, font="Calibri 25")
 entry.grid(row=0, column=0, columnspan=3)
+entry.insert(0, "0")
 
+button_7 = Button(root, text="7", width=WIDTH, height=HEIGHT, font=FONT, command=lambda: num_click(7))
+button_8 = Button(root, text="8", width=WIDTH, height=HEIGHT, font=FONT, command=lambda: num_click(8))
+button_9 = Button(root, text="9", width=WIDTH, height=HEIGHT, font=FONT, command=lambda: num_click(9))
+button_4 = Button(root, text="4", width=WIDTH, height=HEIGHT, font=FONT, command=lambda: num_click(4))
+button_5 = Button(root, text="5", width=WIDTH, height=HEIGHT, font=FONT, command=lambda: num_click(5))
+button_6 = Button(root, text="6", width=WIDTH, height=HEIGHT, font=FONT, command=lambda: num_click(6))
+button_1 = Button(root, text="1", width=WIDTH, height=HEIGHT, font=FONT, command=lambda: num_click(1))
+button_2 = Button(root, text="2", width=WIDTH, height=HEIGHT, font=FONT, command=lambda: num_click(2))
+button_3 = Button(root, text="3", width=WIDTH, height=HEIGHT, font=FONT, command=lambda: num_click(3))
+button_0 = Button(root, text="0", width=WIDTH, height=HEIGHT, font=FONT, command=lambda: num_click(0))
 
-button_7 = Button(root, text="7", width=WIDTH, height=HEIGHT, font=FONT)
-button_8 = Button(root, text="8", width=WIDTH, height=HEIGHT, font=FONT)
-button_9 = Button(root, text="9", width=WIDTH, height=HEIGHT, font=FONT)
-button_4 = Button(root, text="4", width=WIDTH, height=HEIGHT, font=FONT)
-button_5 = Button(root, text="5", width=WIDTH, height=HEIGHT, font=FONT)
-button_6 = Button(root, text="6", width=WIDTH, height=HEIGHT, font=FONT)
-button_1 = Button(root, text="1", width=WIDTH, height=HEIGHT, font=FONT)
-button_2 = Button(root, text="2", width=WIDTH, height=HEIGHT, font=FONT)
-button_3 = Button(root, text="3", width=WIDTH, height=HEIGHT, font=FONT)
-button_0 = Button(root, text="0", width=WIDTH, height=HEIGHT, font=FONT)
+button_float = Button(root, text=".", width=WIDTH, height=HEIGHT, font=FONT, command=float_click)
+button_equal = Button(root, text="=", width=WIDTH, height=HEIGHT, font=FONT, command=equal_click)
 
-button_float = Button(root, text=".", width=WIDTH, height=HEIGHT, font=FONT)
-button_equal = Button(root, text="=", width=WIDTH, height=HEIGHT, font=FONT)
-
-button_clear = Button(root, text="Clear", width=WIDTH, height=HEIGHT, font=FONT)
+button_clear = Button(root, text="Clear", width=WIDTH, height=HEIGHT, font=FONT, command=clear_click)
 button_div = Button(root, text="/", width=WIDTH, height=HEIGHT, font=FONT)
 button_mul = Button(root, text="*", width=WIDTH, height=HEIGHT, font=FONT)
-button_sub = Button(root, text="-", width=WIDTH, height=HEIGHT, font=FONT)
-button_add = Button(root, text="+", width=WIDTH, height=HEIGHT, font=FONT)
+button_sub = Button(root, text="-", width=WIDTH, height=HEIGHT, font=FONT, command=sub_click)
+button_add = Button(root, text="+", width=WIDTH, height=HEIGHT, font=FONT, command=add_click)
 
 
 button_7.grid(row=1, column=0)
