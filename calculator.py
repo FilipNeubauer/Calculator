@@ -1,4 +1,5 @@
 from tkinter import *
+from decimal import Decimal
 
 FONT = "Calibri 19"
 WIDTH = 5
@@ -46,23 +47,62 @@ def sub_click():
     entry.delete(0, END)
 
 
+def mul_click():
+    global first_num
+    global operator
+    first_num = entry.get()
+    operator = "mul"
+    entry.delete(0, END)
+
+
+def div_click():
+    global first_num
+    global operator
+    first_num = entry.get()
+    operator = "div"
+    entry.delete(0, END)
+
+
 def equal_click():
     global first_num
     second_num = entry.get()
-    second_num = float(second_num)
-    first_num = float(first_num)
+    second_num = Decimal(second_num)
+    try:
+        first_num = Decimal(first_num)
+    except:
+        first_num = 0
     entry.delete(0, END)
+
     if operator == "add":
         result = first_num + second_num
+        result = float(result)
         if result.is_integer():
             result = int(result)
         entry.insert(0, result)
 
     if operator == "sub":
         result = first_num - second_num
+        result = float(result)
         if result.is_integer():
             result = int(result)
         entry.insert(0, result)
+    
+    if operator == "mul":
+        result = first_num * second_num
+        result = float(result)
+        if result.is_integer():
+            result = int(result)
+        entry.insert(0, result)
+
+    if operator == "div":
+        try:
+            result = first_num / second_num
+            result = float(result)
+            if result.is_integer():
+                result = int(result)
+            entry.insert(0, result)  
+        except ZeroDivisionError:
+            entry.insert(0, "ERROR")
     
 
 entry = Entry(root, width=10, borderwidth=5, font="Calibri 25")
@@ -84,8 +124,8 @@ button_float = Button(root, text=".", width=WIDTH, height=HEIGHT, font=FONT, com
 button_equal = Button(root, text="=", width=WIDTH, height=HEIGHT, font=FONT, command=equal_click)
 
 button_clear = Button(root, text="Clear", width=WIDTH, height=HEIGHT, font=FONT, command=clear_click)
-button_div = Button(root, text="/", width=WIDTH, height=HEIGHT, font=FONT)
-button_mul = Button(root, text="*", width=WIDTH, height=HEIGHT, font=FONT)
+button_div = Button(root, text="/", width=WIDTH, height=HEIGHT, font=FONT, command=div_click)
+button_mul = Button(root, text="*", width=WIDTH, height=HEIGHT, font=FONT, command=mul_click)
 button_sub = Button(root, text="-", width=WIDTH, height=HEIGHT, font=FONT, command=sub_click)
 button_add = Button(root, text="+", width=WIDTH, height=HEIGHT, font=FONT, command=add_click)
 
